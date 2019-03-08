@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Generate original BTC address (vanity address) which start with string you like.">
+    <meta name="author" content="Kazuki Sugiyama, Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Original BTC Address Generator</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="css/starter-template.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Original BTC Address Generator</a>
+        <!--
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Top <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Q&A</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Import mnemonic to wallet</a>
+                </li>
+            </ul>
+        </div>
+        -->
+    </nav>
+
+    <main role="main" class="container">
+
+        <div class="starter-template">
+            <h1>Original BTC Address Generator</h1>
+            <p class="lead">You can generate Bitcoin(BTC) address which start with the string you like (called vanity address). <br>e.g. Btc → 1BtcCUhM...KyFT15<br><br> ※ All processes run on client (browser), so it takes many times and uses a lot of computer resource.</p>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Start with</span>
+                </div>
+                <input type="text" class="form-control" placeholder="e.g. Btc" aria-describedby="button-addon2" id="searchString">
+            </div>
+            <p id="displayTime"></p>
+
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Generated address</span>
+                </div>
+                <input type="text" class="form-control" placeholder="e.g. 1BtcCUhMsRgZ7TyKwXNtMTp3UzLDKyFT15" aria-describedby="button-addon2" id="foundAddress" readonly>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="copyAddress" onclick="copyField('foundAddress');"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Mnemonic</span>
+                </div>
+                <input type="password" class="form-control" aria-describedby="basic-addon2" id="mnemonic" readonly>
+                <div class="input-group-append">
+                    <button id="passEye" class="btn btn-outline-secondary" type="button"><i class="far fa-eye"></i></button>
+                    <button class="btn btn-outline-secondary" type="button" id="copyPriv" onclick="copyField('mnemonic');"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="form-check form-check-inline">
+                <p>
+                    <input class="form-check-input" type="checkbox" id="downloadCheckbox" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Automatic download mnemonic (pass phrase)</label></p>
+            </div>
+
+
+            <p><button type="button" class="btn btn-outline-dark" id="startButton">Generate</button></p>
+
+            <button type="button" class="btn btn-dark" id="downloadMnemonic">Download mnemonic (pass phrase)</button>
+            <p class="customAlert" id="downloadAlert"></p>
+
+        </div>
+
+    </main><!-- /.container -->
+
+    <footer class="bd-footer text-muted">
+        <div class="container-fluid p-3 p-md-5">
+            <ul class="bd-footer-links">
+                <li><a href="https://github.com/mwtndmik/OriginalAddress">GitHub</a></li>
+                <li><a href="https://twitter.com/mwtndmik">Twitter</a></li>
+                <li><a aria-label="Send email" title="Send me an e-mail" href="mailto:originalbtcaddress@gmail.com">E-mail</a></li>
+            </ul>
+            <p>We are not responsible for any loss.</p>
+            <p>&copy; 2019 originaladdress.net</p>
+        </div>
+    </footer>
+
+    <script src="./bundle.js"></script>
+</body>
+
+</html>
