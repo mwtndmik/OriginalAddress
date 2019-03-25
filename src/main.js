@@ -3,7 +3,6 @@ exports.__esModule = true;
 var generate_1 = require("./generate");
 var file_saver_1 = require("file-saver");
 var spin = require("./spin");
-var $ = require("jquery");
 function getSearchString() {
     var idname = "searchString";
     var element = document.getElementById(idname);
@@ -58,27 +57,35 @@ function calcTime(text) {
         return "20 min";
     }
     else {
-        return (20 * Math.pow(58, (4 - text.length))).toString() + " hours";
+        return (20 * (Math.pow(58, (text.length - 4)))).toString() + " hours";
     }
 }
 function showPriv() {
-    var idname = "privateKey";
+    var idname = "mnemonic";
     var element = document.getElementById(idname);
     element.setAttribute("type", "text");
 }
 function hidePriv() {
-    var idname = "privateKey";
+    var idname = "mnemonic";
     var element = document.getElementById(idname);
     element.setAttribute("type", "password");
 }
-function copyField(id) {
+function copyAddress() {
+    var id = "foundAddress";
     var copyText = document.getElementById(id);
     copyText.select();
     document.execCommand("copy");
-    alert("Copied the text: " + copyText.value);
+    alert("Copied generated BTC Address: " + copyText.value);
+}
+function copyMnemonic() {
+    var id = "mnemonic";
+    var copyText = document.getElementById(id);
+    copyText.select();
+    document.execCommand("copy");
+    alert("Copied Mnemonic (Pass Phrase)");
 }
 function isValidBase58(text) {
-    return /[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/.test(text);
+    return text.match(/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/) === null;
 }
 function onClickStart() {
     var searchString = getSearchString();
@@ -86,19 +93,29 @@ function onClickStart() {
         addCalcTime();
     }
     else {
-        var isDownload = isDownloadChecked();
-        spin.dispLoading("Generating<br>Reload if you want to restart.");
-        var mnemonic = generate_1.searchMnemonic(searchString);
-        setAddress(mnemonic.toAddress());
-        setMnemonic(mnemonic.toString());
-        $('startButton').replaceWith('<div class="alert alert-success" role="alert"><strong>Success!</strong> Generated your original BTC address!</a>.</div>');
-        spin.removeLoading();
-        document.getElementById("downloadAlert").innerHTML = "After import mnemonic to wallet, you have to generate address " + mnemonic.index.toString() + " times";
-        if (isDownload) {
-            var blob = new Blob([mnemonic.toString()], { type: "text/plain;charset=utf-8" });
-            file_saver_1.saveAs(blob, searchString + "-mnemonic.txt");
-        }
+        var isDownload_1 = isDownloadChecked();
+        var wait_1 = function (milliseconds) { return new Promise(function (resolve) { return setTimeout(resolve, milliseconds); }); };
+        Promise.resolve()
+            .then(function () { return spin.dispLoading("Generating<br>Reload if you restart."); })
+            .then(function () { return wait_1(1000); })
+            .then(function () { return onClickGenerate(searchString); })
+            .then(function () { return spin.removeLoading(); })
+            .then(function () { if (isDownload_1)
+            onClickDownload(); });
     }
+}
+function onClickGenerate(searchString) {
+    var mnemonic = generate_1.searchMnemonic(searchString);
+    setAddress(mnemonic.toAddress());
+    setMnemonic(mnemonic.toString());
+    //change startButton to success comment
+    var startButton = document.getElementById("startButton");
+    var change = document.createElement("div");
+    change.className = "alert alert-success";
+    change.setAttribute("role", "alert");
+    change.textContent = "Success!";
+    startButton.parentNode.replaceChild(change, startButton);
+    document.getElementById("downloadAlert").innerHTML = "After import mnemonic to wallet, you have to generate address " + mnemonic.index.toString() + " times on wallet app.";
 }
 function onClickDownload() {
     if (getMnemonic().length == 0) {
@@ -111,3 +128,19 @@ function onClickDownload() {
         file_saver_1.saveAs(blob, searchString + "-mnemonic.txt");
     }
 }
+// document.getElementById("searchString").onkeyup = () => addCalcTime();
+// document.getElementById("copyAddress").onclick = () => copyAddress();
+// document.getElementById("passEye").onmousedown = () => showPriv();
+// document.getElementById("passEye").onmouseup = () => hidePriv();
+// document.getElementById("passEye").onmouseout = () => hidePriv();
+// document.getElementById("copyPriv").onclick = () => copyMnemonic();
+// document.getElementById("startButton").onclick = () => onClickStart();
+// document.getElementById("downloadMnemonic").onclick = () => onClickDownload();
+console.log(isValidBase58("V"));
+console.log(!isValidBase58("O"));
+console.log(!isValidBase58("-"));
+console.log(!isValidBase58("-k"));
+console.log(isValidBase58("VK"));
+console.log(!isValidBase58("VKO"));
+console.log(!isValidBase58("ON"));
+console.log(!isValidBase58("ONI"));

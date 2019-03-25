@@ -29,6 +29,18 @@ var MnemonicIterator = /** @class */ (function () {
     return MnemonicIterator;
 }());
 exports.MnemonicIterator = MnemonicIterator;
+/*
+export function searchMnemonic(searchString:string):Promise<MnemonicIterator>{
+    return new Promise((resolve, reject) => {
+        let mnemonic = new MnemonicIterator(new Mnemonic(Mnemonic.Words.ENGLISH));
+        while( mnemonic.toAddress().slice(1,searchString.length+1) !== searchString){
+            mnemonic.toNext();
+        }
+    
+        resolve(mnemonic);
+    })
+}
+*/
 function searchMnemonic(searchString) {
     var mnemonic = new MnemonicIterator(new Mnemonic(Mnemonic.Words.ENGLISH));
     while (mnemonic.toAddress().slice(1, searchString.length + 1) !== searchString) {
@@ -37,8 +49,3 @@ function searchMnemonic(searchString) {
     return mnemonic;
 }
 exports.searchMnemonic = searchMnemonic;
-console.time('serch2');
-var searchString = "Kait";
-var mnemonic = searchMnemonic(searchString);
-console.log(mnemonic.index, mnemonic.toAddress(), mnemonic.toPrivateKey(), mnemonic.toString());
-console.timeEnd('serch2');

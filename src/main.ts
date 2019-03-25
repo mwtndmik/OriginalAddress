@@ -92,7 +92,7 @@ function copyMnemonic(){
 }
 
 function isValidBase58(text:string):boolean{
-    return /[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/.test(text);
+    return text.match(/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]/) === null;
 }
 
 function onClickStart(){
